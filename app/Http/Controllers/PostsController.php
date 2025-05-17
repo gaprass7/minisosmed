@@ -23,7 +23,7 @@ class PostsController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'content' => 'required|string|max:255',
-            'image' => 'required',
+            'image' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -45,5 +45,53 @@ class PostsController extends Controller
             'message' => 'Berhasil Membuat Post Baru',
             'data' => $post
         ], 201);
+    }
+
+    public function show($id)
+    {
+        $post = Post::find($id);
+        
+        return response()->json([
+            'success' => true,
+            'data' => $post
+        ]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string|max:255',
+            'image' => 'nullable',
+        ]);
+
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => $validator->errors()
+        //     ], 400);
+        // }
+
+        $post = Post::find($id);
+
+        $post->content = $request->content;
+        $post->image = $request->image;
+
+        $post->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil Update Postingan',
+            'data' => $post
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        Post::destroy($id);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil Menghapus Postingan'
+        ]);
     }
 }

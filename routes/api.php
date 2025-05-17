@@ -12,5 +12,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('posts')->group(function () {
         Route::get('/', [PostsController::class, 'index']);
         Route::post('/', [PostsController::class, 'store']);
+        Route::get('{id}', [PostsController::class, 'show']);
+        Route::put('{id}', [PostsController::class, 'update']);
+        Route::delete('{id}', [PostsController::class, 'destroy']);
     });
 });
