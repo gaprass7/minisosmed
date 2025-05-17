@@ -23,7 +23,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
            $table->id(); 
            $table->integer('user_id');
-           $table->integer('posts_id');
+           $table->integer('post_id');
            $table->text('content');
            $table->timestamps(0);
            $table->softDeletes();
@@ -32,7 +32,7 @@ return new class extends Migration
         Schema::create('likes', function (Blueprint $table) {
            $table->id(); 
            $table->integer('user_id');
-           $table->integer('posts_id');
+           $table->integer('post_id');
            $table->timestamps(0);
            $table->softDeletes();
         });
