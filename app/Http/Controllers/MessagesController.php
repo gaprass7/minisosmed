@@ -42,9 +42,20 @@ class MessagesController extends Controller
         $message = Message::find($id);
         return response()->json([
             'success' => true,
+            'message' => 'Berhasil Mengambil Pesan',
             'data' => $message
         ]);
 
+    }
+
+    public function getMessages($user_id) {
+
+        $messages = Message::where('receiver_id', $user_id)->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil Mengambil Pesan',
+            'data' => $messages
+        ]);
     }
 
 
