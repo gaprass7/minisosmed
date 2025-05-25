@@ -14,6 +14,7 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::post('/register', [JWTAuthController::class, 'register']);
+    Route::post('/login', [JWTAuthController::class, 'login']);
     Route::prefix('posts')->group(function () {
         Route::get('/', [PostsController::class, 'index']);
         Route::post('/', [PostsController::class, 'store']);
