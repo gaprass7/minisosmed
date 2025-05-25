@@ -7,6 +7,7 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\JWTAuthController;
+use App\Http\Middleware\JWTMiddleware;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -15,22 +16,22 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::post('/register', [JWTAuthController::class, 'register']);
     Route::post('/login', [JWTAuthController::class, 'login']);
-    Route::prefix('posts')->group(function () {
+    Route::middleware(JWTMiddleware::class)->prefix('posts')->group(function () {
         Route::get('/', [PostsController::class, 'index']);
         Route::post('/', [PostsController::class, 'store']);
         Route::get('{id}', [PostsController::class, 'show']);
         Route::put('{id}', [PostsController::class, 'update']);
         Route::delete('{id}', [PostsController::class, 'destroy']);
     });
-    Route::prefix('comments')->group(function () {
+    Route::middleware(JWTMiddleware::class)->prefix('comments')->group(function () {
         Route::post('/', [CommentsController::class, 'store']);
         Route::delete('{id}', [CommentsController::class, 'destroy']);
     });
-    Route::prefix('likes')->group(function () {
+    Route::middleware(JWTMiddleware::class)->prefix('likes')->group(function () {
         Route::post('/', [likesController::class, 'store']);
         Route::delete('{id}', [likesController::class, 'destroy']);
     });
-    Route::prefix('messages')->group(function () {
+    Route::middleware(JWTMiddleware::class)->prefix('messages')->group(function () {
         Route::post('/', [MessagesController::class, 'store']);
         Route::get('{id}', [MessagesController::class, 'show']); //lihat detail message berdasartan id
         Route::get('getMessages/{user_id}', [MessagesController::class, 'getMessages']); // lihat pesan masuk berdasarkan user id
